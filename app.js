@@ -14,7 +14,7 @@ const cars = [
     overviewTitle:'Individuality was always the point.',
     overview:'The archive begins with this striking black Magenta. Its flowing fibreglass sides, upright grille, exposed cabin and open wheelarches capture the model’s unmistakable charm.',
     context:'The exact build date, donor vehicle and engine are not established from this photograph. The 3D model on this page was supplied with the original photo and is available to explore.',
-    model:'assets/magenta-black.glb', hero:'assets/magenta-black.jpg',
+    model:'bundled', hero:'assets/magenta-black.jpg',
     photos:[{src:'assets/magenta-black.jpg',alt:'Black open-top Magenta kit car with white wheels, seen from the front left',caption:'Black Magenta — supplied photograph',credit:'Original photograph supplied for this archive',source:null,license:null}]
   },
   {
@@ -84,6 +84,52 @@ const sources = [
  {name:'AllCarIndex · Lightspeed Panels / Magenta',detail:'Manufacturer chronology, variants and historical context.',url:'https://www.allcarindex.com/brand/united-kingdom/lightspeed-panels-magenta'},
  {name:'Magna Sport history',detail:'Overview of the Magenta, LSR, Sprint and related kit-car range.',url:'https://motor-car.net/british/item/19428-magna-sport'}
 ];
+// GitHub Pages serves the original user-supplied GLB as losslessly gzipped
+// binary parts. Reconstruct it in the browser only when 3D is requested.
+// This avoids GitHub's upload-size limits without changing the source model.
+const modelParts = Array.from({length:14}, (_,i)=>
+  `assets/models/magenta-${String(i+1).padStart(2,'0')}.gzpart`);
+const originalModelBytes = 58882856;
+let bundledModelUrl = null;
+let bundledModelPromise = null;
+
+async function getBundledModelUrl(){
+  if(bundledModelUrl) return bundledModelUrl;
+  if(bundledModelPromise) return bundledModelPromise;
+  bundledModelPromise = (async()=>{
+    if(!('DecompressionStream' in window)) {
+      throw new Error('This browser does not support decompressed 3D models. Try a current Chrome, Edge, Firefox, or Safari browser.');
+    }
+    const chunks=[];
+    for(let i=0; i<modelParts.length; i++){
+      const response=await fetch(modelParts[i]);
+      if(!response.ok) throw new Error(`Model download failed (part ${i+1}/${modelParts.length}, HTTP ${response.status}).`);
+      chunks.push(await response.arrayBuffer());
+      if(currentMode==='model' && selectedCarId==='black') {
+        setText('#stage-mode',`DOWNLOADING 3D / ${i+1} OF ${modelParts.length}`);
+      }
+    }
+    if(currentMode==='model' && selectedCarId==='black') setText('#stage-mode','PREPARING 3D MODEL');
+    const decoded = await new Response(
+      new Blob(chunks).stream().pipeThrough(new DecompressionStream('gzip'))
+    ).blob();
+    if(decoded.size !== originalModelBytes) throw new Error('The model failed its size check. Please reload the page.');
+    const header = new Uint8Array(await decoded.slice(0,4).arrayBuffer());
+    if(String.fromCharCode(...header)!=='glTF') throw new Error('The reconstructed model has an invalid format.');
+    bundledModelUrl = URL.createObjectURL(new Blob([decoded],{type:'model/gltf-binary'}));
+    return bundledModelUrl;
+  })().catch(err=>{bundledModelPromise=null;throw err;});
+  return bundledModelPromise;
+}
+function displayModelError(error){
+  if(currentMode!=='model' || selectedCarId!=='black') return;
+  console.error('Magenta 3D loading error:',error);
+  $('#viewer-wrap').hidden=true;
+  const placeholder=$('#model-placeholder');placeholder.hidden=false;
+  placeholder.querySelector('h3').textContent='Unable to load 3D model';
+  placeholder.querySelector('p').textContent=error.message || 'The 3D model could not be loaded. Please check your connection and try again.';
+  setText('#stage-mode','3D MODEL / ERROR');
+}
 let selectedCarId='black', currentMode='photo', currentTab='overview';
 const $ = (s) => document.querySelector(s);
 function make(tag, cls='', text='') { const el=document.createElement(tag); if(cls)el.className=cls; if(text)el.textContent=text; return el; }
@@ -96,6 +142,10 @@ function switchMode(mode){
   $('#hero-image').hidden=modelMode;
   $('#viewer-wrap').hidden=!modelMode || !car.model;
   $('#model-placeholder').hidden=!modelMode || !!car.model;
+  if(modelMode && !car.model){
+    $('#model-placeholder h3').textContent='Awaiting 3D generation';
+    $('#model-placeholder p').textContent='This Magenta has been photographed, but its interactive model has yet to be created.';
+  }
   $('#mode-photo').classList.toggle('active',!modelMode);
   $('#mode-model').classList.toggle('active',modelMode);
   $('#mode-photo').setAttribute('aria-pressed',String(!modelMode));
@@ -104,7 +154,16 @@ function switchMode(mode){
   setText('#stage-mode',modelMode?(car.model?'INTERACTIVE / 3D':'3D MODEL / PENDING'):'PHOTOGRAPH / 01');
   if(modelMode && car.model){
     const viewer=$('#model-viewer');
-    if(viewer.getAttribute('src')!==car.model) viewer.setAttribute('src',car.model);
+    if(car.model==='bundled'){
+      setText('#stage-mode','DOWNLOADING 3D / STARTING');
+      getBundledModelUrl().then(url=>{
+        if(selectedCarId!=='black' || currentMode!=='model') return;
+        if(viewer.getAttribute('src')!==url) viewer.setAttribute('src',url);
+        setText('#stage-mode','INTERACTIVE / 3D');
+      }).catch(displayModelError);
+    } else if(viewer.getAttribute('src')!==car.model){
+      viewer.setAttribute('src',car.model);
+    }
   }
 }
 function renderCollection(){
