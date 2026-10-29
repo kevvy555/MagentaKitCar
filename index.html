@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111415" />
+  <meta name="description" content="A visual archive of the Magenta, Britain's distinctive 1970s kit car, featuring historic examples, verified research and interactive 3D." />
+  <title>Magenta — The British Kit Car Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="topline"><span>AN INDEPENDENT AUTOMOTIVE ARCHIVE</span><span>BRITISH KIT CAR CULTURE <span class="topline-star">✳</span> EST. 1972</span></div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Magenta archive home">
+      <span class="brand-icon">M<span>.</span></span><span class="brand-stack"><strong>MAGENTA</strong><small>THE MOTOR ARCHIVE</small></span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#collection">THE COLLECTION</a><a href="#dossier">THE STORY</a><a href="#references">RESEARCH NOTES</a>
+    </nav>
+    <a class="header-cta" href="#collection">EXPLORE THE CARS <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="intro-band" aria-label="Archive introduction">
+      <span class="small-kicker"><span class="dot"></span> AN UNCOMMON BRITISH CLASSIC</span>
+      <span class="intro-right">THE ERA OF BUILD-IT-YOURSELF MOTORING <span aria-hidden="true">↘</span></span>
+    </section>
+
+    <section class="showcase" id="showcase" aria-labelledby="car-title">
+      <div class="hero-copy">
+        <div class="hero-index"><span id="hero-index">01 / 04</span><span class="hero-rule"></span><span id="hero-category">THE ORIGINAL SHAPE</span></div>
+        <p class="hero-pretitle">Meet the Magenta.</p>
+        <h1 id="car-title">The Black<br><em>Roadster.</em></h1>
+        <p class="hero-description" id="car-description">A characterful, no-nonsense open-top survivor. Fibreglass curves, classic British mechanical roots, and unmistakable individuality.</p>
+        <div class="hero-meta">
+          <div><span class="meta-label">EXAMPLE</span><strong id="hero-variant">OPEN-TOP MAGENTA</strong></div>
+          <div><span class="meta-label">MODEL STATUS</span><strong id="hero-status"><i class="status-dot"></i> 3D AVAILABLE</strong></div>
+        </div>
+        <div class="hero-actions">
+          <button type="button" id="view-3d" class="btn btn-primary"><span class="button-icon">◈</span> EXPLORE IN 3D <span aria-hidden="true">↗</span></button>
+          <a class="btn btn-text" href="#collection">BROWSE THE COLLECTION <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-quote">“Something between a roadster and a beach buggy.”<span> — THE MAGENTA IDEA</span></div>
+      </div>
+      <div class="hero-stage" id="hero-stage">
+        <div class="stage-top"><span><span class="stage-live"></span> <span id="stage-mode">PHOTOGRAPH / 01</span></span><span class="stage-coordinate">MAGENTA / ARCHIVE NO. <span id="stage-number">001</span></span></div>
+        <div class="stage-media" id="stage-media">
+          <img id="hero-image" src="assets/magenta-black.jpg" alt="Black Magenta kit car viewed from the front quarter" />
+          <div id="viewer-wrap" class="viewer-wrap" hidden>
+            <model-viewer id="model-viewer" camera-controls auto-rotate auto-rotate-delay="2500" rotation-per-second="18deg" shadow-intensity="0.9" exposure="1" environment-image="neutral" tone-mapping="aces" interaction-prompt="auto" touch-action="pan-y" alt="Interactive 3D model of the black Magenta kit car" style="width:100%;height:100%;background:transparent"></model-viewer>
+            <div class="viewer-hint">DRAG TO ROTATE <span>•</span> SCROLL TO ZOOM</div>
+          </div>
+          <div id="model-placeholder" class="model-placeholder" hidden>
+            <div class="wire-car" aria-hidden="true"><svg viewBox="0 0 260 132" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 99h24l18-34 44-15h63l43 17 19 32h20" stroke="currentColor" stroke-width="2"/><path d="M60 64l33-30h51l27 29M103 34l-3 31m73 1-41-1M32 101h204" stroke="currentColor" stroke-width="2" stroke-dasharray="6 7"/><circle cx="75" cy="100" r="20" stroke="currentColor" stroke-width="2"/><circle cx="190" cy="100" r="20" stroke="currentColor" stroke-width="2"/></svg></div>
+            <span class="placeholder-tag">DIGITAL PRESERVATION / IN PROGRESS</span>
+            <h3>Awaiting 3D generation</h3>
+            <p>This Magenta has been photographed, but its interactive model has yet to be created.</p>
+            <button type="button" id="return-photo" class="btn btn-outline">RETURN TO PHOTOGRAPH ↗</button>
+          </div>
+        </div>
+        <div class="stage-bottom"><span id="image-credit">YOUR COLLECTION · ORIGINAL PHOTOGRAPH</span><div class="media-switch" role="group" aria-label="Display mode"><button type="button" class="active" id="mode-photo" aria-pressed="true">2D PHOTO</button><button type="button" id="mode-model" aria-pressed="false">3D MODEL</button></div></div>
+      </div>
+    </section>
+
+    <section class="stats-bar" aria-label="Magenta facts"><div><span class="stat-number">1972</span><span>THE MAGENTA DEBUTS</span></div><div><span class="stat-number">650<span class="stat-suffix">≈</span></span><span>REPORTED KITS SOLD</span></div><div><span class="stat-number" id="stat-cars">04</span><span>CARS IN THIS ARCHIVE</span></div><div><span class="stat-number">01</span><span>INTERACTIVE 3D MODEL</span></div></section>
+
+    <section class="collection section-shell" id="collection" aria-labelledby="collection-title">
+      <div class="section-heading"><div><span class="section-label"><span class="accent-slash">/</span> THE COLLECTION</span><h2 id="collection-title">Four cars. <em>Four stories.</em></h2></div><p>Every build is different. Select a car to explore its photographs, background and 3D model status.</p></div>
+      <div class="collection-grid" id="collection-grid" aria-label="Choose a Magenta vehicle"></div>
+      <div class="collection-footnote"><span><span class="dot"></span> SELECT A VEHICLE ABOVE TO CHANGE THE FEATURED SHOWCASE</span><span>MORE CARS &amp; 3D SCANS CAN BE ADDED</span></div>
+    </section>
+
+    <section class="dossier section-shell" id="dossier" aria-labelledby="dossier-title">
+      <div class="dossier-head"><div><span class="section-label"><span class="accent-slash">/</span> THE DOSSIER</span><h2 id="dossier-title">The story <em>behind the shape.</em></h2></div><div class="dossier-chip"><span class="chip-circle">✳</span> RESEARCH-LED ARCHIVE</div></div>
+      <div class="tab-list" role="tablist" aria-label="Car details">
+        <button type="button" class="tab-button active" role="tab" aria-selected="true" aria-controls="tab-overview" id="tabbtn-overview" data-tab="overview"><span>01</span> OVERVIEW</button>
+        <button type="button" class="tab-button" role="tab" aria-selected="false" aria-controls="tab-specs" id="tabbtn-specs" data-tab="specs"><span>02</span> TECHNICAL FILE</button>
+        <button type="button" class="tab-button" role="tab" aria-selected="false" aria-controls="tab-history" id="tabbtn-history" data-tab="history"><span>03</span> THE HISTORY</button>
+        <button type="button" class="tab-button" role="tab" aria-selected="false" aria-controls="tab-photos" id="tabbtn-photos" data-tab="photos"><span>04</span> PHOTO ARCHIVE</button>
+      </div>
+      <div class="tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tabbtn-overview">
+        <div class="overview-layout"><div class="overview-main"><span class="panel-eyebrow">CURRENTLY VIEWING <span id="overview-number">/ 001</span></span><h3 id="overview-title">Individuality was always the point.</h3><p id="overview-body"></p><p id="overview-context"></p><a class="underlined-link" href="#references">EXPLORE OUR RESEARCH <span>↗</span></a></div><aside class="fact-card"><span class="card-caption">VEHICLE RECORD <span id="record-number">/ 001</span></span><div id="individual-facts"></div><p class="fact-caution">Records distinguish verified individual details from period factory specifications.</p></aside></div>
+        <div class="feature-row"><article><span class="feature-icon">01 <span>↗</span></span><h4>British ingenuity.</h4><p>Fibreglass construction and a donor-based approach put distinctive motoring in the hands of DIY builders.</p></article><article><span class="feature-icon">02 <span>↗</span></span><h4>Every build unique.</h4><p>Body details, drivetrains, roofs and trim vary widely — a Magenta is often as individual as its builder.</p></article><article><span class="feature-icon">03 <span>↗</span></span><h4>Worth preserving.</h4><p>Photos, stories and interactive scans help document cars from a small but fascinating corner of UK automotive history.</p></article></div>
+      </div>
+      <div class="tab-panel" id="tab-specs" role="tabpanel" aria-labelledby="tabbtn-specs" hidden>
+        <div class="spec-head"><div><span class="panel-eyebrow">THE ORIGINAL 1972 BROCHURE</span><h3>The specification <em>at launch.</em></h3></div><p>These are period figures for the original MG 1100-based Magenta, not verified specifications for the selected individual car or later LSR / Sprint variants.</p></div>
+        <div class="spec-grid" id="spec-grid"></div>
+        <div class="spec-notice"><span>ⓘ</span><p>Specifications transcribed and converted from Lightspeed Panels’ 10 August 1972 press information. Figures are approximate; factory documentation is distinct from an individual vehicle record.</p></div>
+      </div>
+      <div class="tab-panel" id="tab-history" role="tabpanel" aria-labelledby="tabbtn-history" hidden>
+        <div class="history-layout"><div class="history-intro"><span class="panel-eyebrow">A SMALL CAR WITH A LONG STORY</span><h3>Built to be <em>different.</em></h3><p>In an era of garage-built specials, the Magenta combined familiar British running gear with a shape somewhere between roadster and dune buggy.</p><div class="history-pullquote">“The firm has produced a kit car which will bring sports car stability, handling and performance within easy reach of the do-it-yourself enthusiast.”<small>— LIGHTSPEED PANELS PRESS MATERIAL, 1972</small></div></div><div class="timeline" id="timeline"></div></div>
+      </div>
+      <div class="tab-panel" id="tab-photos" role="tabpanel" aria-labelledby="tabbtn-photos" hidden>
+        <div class="photos-head"><div><span class="panel-eyebrow">PHOTOGRAPHIC RECORD</span><h3 id="photos-title">The car, <em>in detail.</em></h3></div><p>Select a view to enlarge it. Every externally sourced photograph includes its photographer and licence.</p></div>
+        <div id="photo-archive" class="photo-archive"></div>
+      </div>
+    </section>
+
+    <section class="editorial-strip" aria-label="Magenta quotation"><div class="editorial-inner"><span>BUILT IN BRITAIN. BUILT BY ENTHUSIASTS.</span><p>Not mass-produced. <em>Never ordinary.</em></p><span>THE MAGENTA STORY <span aria-hidden="true">✳</span> 1972—1988</span></div></section>
+
+    <section class="references section-shell" id="references" aria-labelledby="references-title"><div class="section-heading"><div><span class="section-label"><span class="accent-slash">/</span> REFERENCES &amp; CREDITS</span><h2 id="references-title">The archive <em>notes.</em></h2></div><p>The historical detail comes from published research and original material. Image licences and source links are documented below.</p></div><div class="reference-layout"><div><h3>Historical sources</h3><div class="source-list" id="history-sources"></div></div><div><h3>Photograph credits</h3><div class="source-list" id="photo-credits"></div></div></div><p class="reference-disclaimer">This is an independent enthusiast showcase and is not associated with a current car manufacturer. Dates and production totals vary between historical sources. Other cars pictured are separate vehicles, not alternate views of the black car.</p></section>
+  </main>
+  <footer class="site-footer"><div class="footer-brand">MAGENTA<span>.</span><small>THE BRITISH KIT CAR ARCHIVE</small></div><div class="footer-right"><p>AN OPEN ROAD. AN OPEN MIND.</p><a href="#top">BACK TO TOP ↑</a><small>CURATED WITH CARE · © 2026 MAGENTA ARCHIVE CONCEPT</small></div></footer>
+
+  <dialog id="image-modal" class="image-modal"><button type="button" class="modal-close" id="modal-close" aria-label="Close photograph">×</button><img id="modal-image" src="" alt="" /><div class="modal-footer"><span id="modal-caption"></span><a id="modal-source" target="_blank" rel="noopener noreferrer">VIEW IMAGE SOURCE ↗</a></div></dialog>
+</body>
+</html>
